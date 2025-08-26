@@ -4,8 +4,8 @@ services:
     env: docker
     plan: free
     autoDeploy: true
-    dockerContext: ./
-    dockerfilePath: ./Dockerfile
+    dockerContext: backend
+    dockerfilePath: backend/Dockerfile
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
