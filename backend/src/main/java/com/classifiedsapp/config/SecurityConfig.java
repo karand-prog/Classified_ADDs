@@ -34,6 +34,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/ws/**", "/ws").permitAll() // Allow WebSocket connections
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
                 .requestMatchers("/api/notifications/**").permitAll()
