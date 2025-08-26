@@ -20,7 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import com.classifiedsapp.repository.UserRepository;
 import java.util.HashMap;
 
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -41,8 +41,6 @@ public class AuthController {
                 body.get("email"),
                 body.get("password")
             );
-            
-            // Establish session after successful signup
             Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(body.get("username"), body.get("password"))
             );
@@ -50,16 +48,13 @@ public class AuthController {
             HttpSession session = request.getSession(true);
             session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
             session.setAttribute("dummy", "dummy");
-            
             Map<String, Object> userMap = new HashMap<>();
             userMap.put("id", user.getId());
             userMap.put("username", user.getUsername());
             userMap.put("email", user.getEmail());
-            
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Signup successful");
             response.put("user", userMap);
-            
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
@@ -76,23 +71,18 @@ public class AuthController {
             HttpSession session = request.getSession(true);
             session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
             session.setAttribute("dummy", "dummy");
-            // Fetch user details for response
             com.classifiedsapp.model.User user = userRepository.findByUsername(auth.getName()).orElseGet(() -> userRepository.findByEmail(auth.getName()).orElse(null));
-            
             if (user == null) {
                 return ResponseEntity.status(401).body(Map.of("error", "User not found"));
             }
-            
             Map<String, Object> userMap = new HashMap<>();
             userMap.put("id", user.getId());
             userMap.put("username", user.getUsername());
             userMap.put("email", user.getEmail());
             userMap.put("avatar", user.getAvatar());
-            
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Login successful");
             response.put("user", userMap);
-            
             return ResponseEntity.ok(response);
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
