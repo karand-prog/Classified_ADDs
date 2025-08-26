@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/categories")
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS})
+@CrossOrigin(originPatterns = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS})
 public class CategoryController {
     private static final Map<String, Map<String, Object>> categoryData = new HashMap<>();
     private static final Map<String, List<Map<String, Object>>> postedAds = new HashMap<>(); // new ads per category

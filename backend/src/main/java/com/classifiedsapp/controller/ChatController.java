@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("/api/chat")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 public class ChatController {
 
     private final SimpMessagingTemplate messagingTemplate;

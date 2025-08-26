@@ -6,7 +6,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/notifications")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 public class NotificationController {
     @GetMapping
     public List<Map<String, String>> getNotifications(@RequestParam(required = false) String userId, @RequestParam(required = false) String user) {
